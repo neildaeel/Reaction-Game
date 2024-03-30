@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Reaction Test</title>
+ <style>
+  #board {
+   border: 1px solid black;
+   background-color: lightgray;
+   height: 650px;
+   width: 1300px;
+  }
+  .character {
+   background-color: orange;
+   background-size: cover;
+   width: 150px;
+   height: 150px;
+   padding: 25px;
+   margin: 25px;
+   float: left;
+  }
+  .thief {
+   background-color: red;
+   background-size: cover;
+   width: 150px;
+   height: 150px;
+   padding: 25px;
+   margin: 25px;
+   float: left;
+  }
+  .hidden {
+   display: none;
+  }
+  .visible {
+   display: block;
+  }
+ </style>
+</head>
+<body>
+ <input type="button" value="Play" onclick="startGame()"/>
+ <div id="board">
+  <div class="character">1</div>
+  <div class="character">2</div>
+  <div class="character">3</div>
+  <div class="character">4</div>
+  <div class="character">5</div>
+  <div class="character">6</div>
+  <div class="character">7</div>
+  <div class="character">8</div>
+  <div class="character">9</div>
+  <div class="character">10</div>
+ </div>
+ <script>
+  function startGame() {
+   gameLoop();
+  }
+  var loops = 0;
+  var peopleVisible = false;
+  var gameScore = 0;
+  alert("How To Play: Once you click the play button on the top left of your screen, you will see 9 orange squares and 1 red square. The objective of the game is to press on the red square before the screen resets. There will be ten rounds, and your final score will be determined by how many rounds you were able to click on the red square before it resets. Good Luck!");
+  function gameLoop() {
+   peopleVisible = !peopleVisible;
+   createCharacters();
+   loops++;
+   if(loops < 20) {
+    setTimeout(gameLoop, peopleVisible ? 1200 : 1200);
+   }
+   else {
+    alert("You scored " + gameScore);
+   }
+  }
+  function createCharacters() {
+   var board = document.getElementById("board");
+   var classToSet = peopleVisible ? "character visible" : "character hidden";
+   for(var index = 0; index < 10; index ++) {
+   board.children[index].className = classToSet;
+   board.children[index].innerHTML = " ";
+   board.children[index].onclick = function() {
+    gameScore += -2;
+   }
+  }
+   var randomNumber = Math.floor(Math.random() * 10) + 1;
+   board.children[randomNumber-1].innerHTML = " ";
+   board.children[randomNumber-1].onclick = function() {
+    gameScore++;
+   }
+   board.children[randomNumber-1].className = classToSet + " thief";
+  }
+ </script>
+</body>
+</html>
